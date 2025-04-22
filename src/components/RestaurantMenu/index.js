@@ -1,33 +1,56 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useCallback} from 'react'
 import CategoryTabs from '../CategoryTabs'
 import DishCard from '../DishCard'
 import './index.css'
 
-const RestaurantMenu = ({setCartCount}) => {
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  inProgress: 'IN_PROGRESS',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+}
+
+const RestaurantMenu = ({setCartCount, setRestaurantName}) => {
   const [menuData, setMenuData] = useState([])
   const [activeCategory, setActiveCategory] = useState('')
   const [dishQuantities, setDishQuantities] = useState({})
+  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
 
-  useEffect(() => {
-    const getMenu = async () => {
+  const getMenu = useCallback(async () => {
+    setApiStatus(apiStatusConstants.inProgress)
+    try {
       const response = await fetch(
         'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details',
       )
-      const data = await response.json()
-      setMenuData(data[0].table_menu_list)
-      setActiveCategory(data[0].table_menu_list[0].menu_category)
 
-      const initialQuantities = {}
-      data[0].table_menu_list.forEach(category => {
-        category.category_dishes.forEach(dish => {
-          initialQuantities[dish.dish_id] = 0
+      if (response.ok) {
+        const data = await response.json()
+        const restaurant = data[0]
+
+        setRestaurantName(restaurant.restaurant_name)
+        setMenuData(restaurant.table_menu_list)
+        setActiveCategory(restaurant.table_menu_list[0].menu_category)
+
+        const initialQuantities = {}
+        restaurant.table_menu_list.forEach(category => {
+          category.category_dishes.forEach(dish => {
+            initialQuantities[dish.dish_id] = 0
+          })
         })
-      })
-      setDishQuantities(initialQuantities)
+        setDishQuantities(initialQuantities)
+        setApiStatus(apiStatusConstants.success)
+      } else {
+        setApiStatus(apiStatusConstants.failure)
+      }
+    } catch (error) {
+      console.error('Fetch error:', error)
+      setApiStatus(apiStatusConstants.failure)
     }
+  }, [setRestaurantName])
 
+  useEffect(() => {
     getMenu()
-  }, [])
+  }, [getMenu])
 
   useEffect(() => {
     const totalCount = Object.values(dishQuantities).reduce(
@@ -54,32 +77,60 @@ const RestaurantMenu = ({setCartCount}) => {
     })
   }
 
-  const currentCategory = menuData.find(
-    category => category.menu_category === activeCategory,
-  )
+  const renderDishes = () => {
+    const currentCategory = menuData.find(
+      category => category.menu_category === activeCategory,
+    )
 
-  const currentDishes = currentCategory ? currentCategory.category_dishes : []
+    const currentDishes = currentCategory ? currentCategory.category_dishes : []
 
-  return (
-    <div>
-      <CategoryTabs
-        categories={menuData}
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-      />
-      <div className="dishes-container">
-        {currentDishes.map(dish => (
-          <DishCard
-            key={dish.dish_id}
-            dish={dish}
-            quantity={dishQuantities[dish.dish_id] || 0}
-            onIncrease={() => handleIncrease(dish.dish_id)}
-            onDecrease={() => handleDecrease(dish.dish_id)}
-          />
-        ))}
-      </div>
+    return (
+      <>
+        <CategoryTabs
+          categories={menuData}
+          activeCategory={activeCategory}
+          onCategoryChange={handleCategoryChange}
+        />
+        <div className="dishes-container">
+          {currentDishes.map(dish => (
+            <DishCard
+              key={dish.dish_id}
+              dish={dish}
+              quantity={dishQuantities[dish.dish_id] || 0}
+              onIncrease={() => handleIncrease(dish.dish_id)}
+              onDecrease={() => handleDecrease(dish.dish_id)}
+            />
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  const renderLoader = () => <p className="loader">Loading...</p>
+
+  const renderFailure = () => (
+    <div className="error-container">
+      <p className="error-text">Failed to load menu. Please try again.</p>
+      <button type="button" className="retry-btn" onClick={getMenu}>
+        Retry
+      </button>
     </div>
   )
+
+  const renderMenu = () => {
+    switch (apiStatus) {
+      case apiStatusConstants.inProgress:
+        return renderLoader()
+      case apiStatusConstants.success:
+        return renderDishes()
+      case apiStatusConstants.failure:
+        return renderFailure()
+      default:
+        return null
+    }
+  }
+
+  return <div>{renderMenu()}</div>
 }
 
 export default RestaurantMenu

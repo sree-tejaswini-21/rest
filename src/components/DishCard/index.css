@@ -1,88 +1,96 @@
 .dish-card {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  margin: 16px;
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.dish-card:hover {
-  transform: translateY(-4px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  margin: 16px 0;
+  padding: 16px;
+  gap: 16px;
 }
 
 .dish-image {
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 100px;
   object-fit: cover;
+  border-radius: 8px;
 }
 
 .dish-details {
-  flex-grow: 1;
-  padding: 12px 16px;
+  flex: 1;
 }
 
 .dish-name {
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
+  color: #1e293b;
+  margin: 0 0 4px;
 }
 
 .dish-price {
-  color: #ff6347;
-  margin: 6px 0;
-  font-weight: 600;
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 4px;
 }
 
 .dish-description {
-  font-size: 14px;
-  color: #666;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 6px;
 }
 
 .dish-calories {
   font-size: 13px;
-  margin-top: 8px;
-  color: #999;
+  color: #f97316;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .dish-addon {
-  font-size: 14px;
-  color: #0c7b93;
-  font-weight: 500;
-  margin-top: 6px;
-}
-
-.not-available {
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
+  font-size: 13px;
+  color: #2563eb;
+  margin-bottom: 8px;
 }
 
 .quantity-controls {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  gap: 10px;
 }
 
 .quantity-btn {
-  width: 28px;
-  height: 28px;
-  font-size: 18px;
+  background-color: #dc2626;
+  color: #fff;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
   border: none;
-  background-color: #ff6347;
-  color: white;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.quantity-btn:hover {
-  background-color: #e5533d;
 }
 
 .quantity-count {
-  margin: 0 12px;
-  font-size: 16px;
+  font-size: 14px;
+  color: #1e293b;
   font-weight: 600;
+}
+
+.not-available {
+  font-size: 13px;
+  color: #dc2626;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+/* Mobile View Adjustments */
+@media screen and (max-width: 768px) {
+  .dish-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dish-image {
+    width: 100%;
+    height: auto;
+  }
 }

@@ -2,30 +2,38 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ff6347;
-  color: #fff;
-  padding: 16px 24px;
+  background-color: #fff;
+  padding: 12px 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header h1 {
+  font-size: 20px;
+  color: #1e293b;
+}
+
+.header p {
+  font-size: 14px;
+  color: #334155;
+  margin: 0 10px;
 }
 
 .cart-container {
   display: flex;
   align-items: center;
-  position: relative;
 }
 
 .cart-icon {
-  font-size: 24px;
+  font-size: 22px;
+  color: #1e40af;
 }
 
 .cart-count {
-  background-color: #fff;
-  color: #ff6347;
-  font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 12px;
   font-size: 14px;
-  position: absolute;
-  top: -10px;
-  right: -10px;
+  margin-left: 6px;
+  color: #dc2626;
+  font-weight: 600;
 }

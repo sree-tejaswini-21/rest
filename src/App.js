@@ -5,11 +5,15 @@ import './App.css'
 
 const App = () => {
   const [cartCount, setCartCount] = useState(0)
+  const [restaurantName, setRestaurantName] = useState('')
 
   return (
     <div className="app">
-      <Header cartCount={cartCount} />
-      <RestaurantMenu setCartCount={setCartCount} />
+      <Header restaurantName={restaurantName} cartCount={cartCount} />
+      <RestaurantMenu
+        setCartCount={setCartCount}
+        setRestaurantName={setRestaurantName}
+      />
     </div>
   )
 }

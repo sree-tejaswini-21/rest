@@ -1,47 +1,32 @@
-.restaurant-name {
-  font-size: 22px;
-  text-align: center;
-  margin: 16px 0;
-  color: #444;
-}
-
-.dishes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-}
-
-@media screen and (max-width: 768px) {
-  .header h1 {
-    font-size: 20px;
-  }
-
-  .cart {
-    font-size: 18px;
-  }
-
-  .dish-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .dish-card img {
-    width: 100%;
-    height: auto;
-  }
-
-  .tabs {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-
-  .tabs button {
-    font-size: 14px;
-  }
-}
 .dishes-container {
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
+  padding: 16px;
+  background-color: #f9fafb;
+}
+
+.loader {
+  text-align: center;
+  color: #1e40af;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.error-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.retry-btn {
+  background-color: #1e40af;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
 }

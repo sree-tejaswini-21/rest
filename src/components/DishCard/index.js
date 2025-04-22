@@ -24,6 +24,7 @@ const DishCard = ({dish, quantity, onIncrease, onDecrease}) => (
           <p className="quantity-count" data-testid="dish-quantity">
             {quantity}
           </p>
+
           <button type="button" onClick={onIncrease} className="quantity-btn">
             +
           </button>
